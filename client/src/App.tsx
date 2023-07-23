@@ -5,12 +5,9 @@ import { socket } from './socket'
 import './App.css'
 
 function App() {
-
-  localStorage.debug = '*';
   const [count, setCount] = useState(0)
   const [isConnected, setIsConnected] = useState(socket.connected);
 
-  console.log(socket)
   useEffect(() => {
     function onConnect() {
       setIsConnected(true);
@@ -19,6 +16,7 @@ function App() {
     function onDisconnect() {
       setIsConnected(false);
     }
+    socket.emit('hello', 'world');
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
@@ -27,6 +25,7 @@ function App() {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
     };
+
   },[])
   
   return (

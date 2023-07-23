@@ -23,6 +23,7 @@ const io = new Server(server, {
 io.on("connection", function(socket: any) {
   console.log("a user connected");
 
+  // testing
   socket.on("hello", function(message: any) {
     console.log(message);
   });
@@ -33,6 +34,6 @@ io.on("connection", function(socket: any) {
 
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`⚡️Server is running at http://localhost:${PORT}`);
 });
