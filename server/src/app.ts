@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import { roomHandler } from './room';
+import { messageHandler } from './message';
 dotenv.config();
 
 const { PORT } = process.env || 3434;
@@ -20,18 +21,15 @@ const io = new Server(server, {
   cors: WEBSOCKET_CORS,
 });
 
-io.on("connection", function(socket: any) {
-  console.log("a user connected");
+io.on("connection", (socket: any) => {
+  console.log(`a user connected ${socket.id}`);
 
-  // testing
-  socket.on("hello", function(message: any) {
-    console.log(message);
-  });
+  roomHandler(socket);
+  messageHandler(socket);
 
   socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
+    console.log(`User Disconnected ${socket.id}`);
   });
-
 });
 
 server.listen(PORT, () => {
